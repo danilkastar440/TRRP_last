@@ -26,6 +26,7 @@ type SourceDefinition struct {
 }
 
 type InternalRequest struct {
-	Wg  *sync.WaitGroup
-	Req AgentDataReq
+	Wg    *sync.WaitGroup
+	ResCh chan AgentDataRes
+	Req   AgentDataReq
 }
