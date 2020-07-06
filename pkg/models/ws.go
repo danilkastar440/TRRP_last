@@ -5,7 +5,7 @@ import "sync"
 type AgentDataRes struct {
 	BotId        string           `json:"bot_id"`
 	Err          string           `json:"err,omitempty"`
-	EndpointData []byte           `json:"endpoint_data"`
+	EndpointData string           `json:"endpoint_data"`
 	Def          SourceDefinition `json:"def"`
 	RequestTime  string           `json:"request_time"`
 	RequestId    string           `json:"request_id"`

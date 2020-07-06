@@ -21,7 +21,7 @@ var botId string
 
 type options struct {
 	//TODO: change url func
-	DispatcherURL string `long:"dispatcher-host" env:"DISPATCHER" required:"true" default:"trrp-virus.ew.r.appspot.com"`
+	DispatcherURL string `long:"dispatcher-host" env:"DISPATCHER" required:"true" default:"trrv-univer.ew.r.appspot.com"`
 	Interval      string `long:"interval" env:"INTERVAL" required:"true" default:"10s"`
 }
 
@@ -45,13 +45,14 @@ func getId() {
 
 func subscribeForCommands(dispatcherHost string) error {
 	u := url.URL{Scheme: "wss", Host: dispatcherHost, Path: "/subscribe"}
+	log.Info().Msg("Start subscribe")
 
 	c, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
 	if err != nil {
 		return err
 	}
 	defer c.Close()
-
+	log.Info().Msg("Subscribed")
 	cnt := 0
 	var msg models.AgentDataReq
 	client := &http.Client{}
@@ -119,7 +120,8 @@ func subscribeForCommands(dispatcherHost string) error {
 			}
 			continue
 		}
-		agentDataRes.EndpointData = data
+
+		agentDataRes.EndpointData = string(data)
 		agentDataRes.StatusCode = resp.StatusCode
 
 		if err := c.WriteJSON(agentDataRes); err != nil {
